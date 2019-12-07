@@ -10,7 +10,6 @@ Operation *operation;
 
 Napi::String toString(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  cout << "toString" << ' ' << operation->toString() << endl;
   return Napi::String::New(env, operation->toString());
 }
 
@@ -30,15 +29,10 @@ void addInsert(const Napi::CallbackInfo& info) {
   }
   
   string str = info[0].As<Napi::String>().Utf8Value();
-  cout << str << endl;
-  try {
-    operation->addInsert(str);
-  } catch(exception e) {
-    cout << e.what() << endl;
-  }
-  cout << str << ' ' << operation->toString() << endl;
+  operation->addInsert(str);
   return;
 }
+
 
 Napi::String Method(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();

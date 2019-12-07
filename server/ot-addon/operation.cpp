@@ -292,26 +292,13 @@ bool Operation::operator == (const Operation& A) const{
 
 string Operation::toString() {
     string str;
-    cout << "test" << ops.size() << endl;
     for (auto op : ops) {
         if (op->getType() == OpType::Retain) {
             str = str + "retain" + to_string(op->length());
         }
         else if (op->getType() == OpType::Insert) {
             str = str + "insert'";
-            cout << "T1" << endl;
-            cout << op->length() << endl;
-            try{
-                // auto tmp = 
-                dynamic_pointer_cast<InsertOp>(op);
-            } catch (exception e) {
-                cout << e.what() << endl;
-            }
-
-            cout << "T2" << endl;
             str = str + dynamic_pointer_cast<InsertOp>(op)->getStr() + "'";
-            cout << "T3" << ' ' << str << endl;
-
         }
         else {
             str = str + "delete" + to_string(op->length());
