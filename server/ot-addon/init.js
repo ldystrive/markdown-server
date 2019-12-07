@@ -1,3 +1,3 @@
-var addon = require('bindings')('hello');
+var addon = require('bindings')('ot');
 
 console.log(addon.hello()); // 'world'
