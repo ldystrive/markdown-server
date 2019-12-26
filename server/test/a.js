@@ -1,9 +1,7 @@
-let tot = 0
-const f1 = async () => {
-    tot ++
-    console.log(tot)
-}
+const files = require('../common/files')
 
-module.exports = {
-    f1
+const f = async ()=> {
+    const a = await files.addFile('a')
+    console.log(a)
 }
+f()

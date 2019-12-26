@@ -6,8 +6,8 @@ const router = Router()
 router.get('/getFiles', files.getFiles)
 router.put('/addFile', async ctx => {
   const fileName = ctx.request.body.fileName
-  const docId = files.addFile(fileName)
-  if (docId !== null) {
+  const docId = await files.addFile(fileName)
+  if (docId === null) {
     ctx.body = {
       success: false,
       info: '此文件已存在'
