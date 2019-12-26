@@ -22,12 +22,14 @@ const getFiles = async (ctx) => {
 }
 
 const getFile = async (fileName) => {
-  Files.forEach((value, key) => {
-    if (value.fileName === fileName) {
-      return value
-    }
+  return new Promise( (resolve, reject) => {
+    Files.forEach((value, key) => {
+      if (value.fileName === fileName) {
+        resolve(value)
+      }
+    })
+    reject('not found')
   })
-  return null
 }
 
 const getFileByDocId = async (docId) => {
@@ -35,13 +37,16 @@ const getFileByDocId = async (docId) => {
 }
 
 const addFile = async (fileName) => {
-  if (await getFile(fileName) === null) {
-    const docId = uuid.v1()
-    const file = new File(docId, fileName)
-    Files.set(docId, file)
-    return docId
-  }
-  return null
+  return await getFile(fileName)
+    .then((value) => {
+      return null
+    })
+    .catch((err) => {
+      const docId = uuid.v1()
+      const file = new File(docId, fileName)
+      Files.set(docId, file)
+      return docId  
+    })
 }
 
 module.exports = {
