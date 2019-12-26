@@ -35,7 +35,7 @@ const getFileByDocId = async (docId) => {
 }
 
 const addFile = async (fileName) => {
-  if (getFile(fileName) !== null) {
+  if (getFile(fileName) === null) {
     const docId = uuid.v1()
     const file = new File(docId, fileName)
     Files.set(docId, file)
