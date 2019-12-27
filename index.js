@@ -67,7 +67,7 @@ app.use(cors({
 
 
 router.use('/auth', auth.router.routes())
-router.use('/files', jwt({secret: 'project2019'}), filesRouter.router.routes())
+router.use('/files', /* jwt({secret: 'project2019'}), */filesRouter.router.routes())
 
 app.use(router.routes())
 
@@ -86,7 +86,7 @@ app.use( async (ctx) => {
   ctx.body = 'hello'
 })
 
-io.use((socket, next) => {
+io.use(async (socket, next) => {
   if (socket.handshake.query && socket.handshake.query.token) {
     jwt.verify(socket.handshake.query.token, 'project2019', (err, decoded) => {
       if (err) {
@@ -96,14 +96,17 @@ io.use((socket, next) => {
       next()
     })
   } else {
-    next(new Error('Authentication error'))
+    next()
+    // next(new Error('Authentication error'))
   }
-}).on('connection', socket => {
+}).on('connection', async socket => {
   console.log('socket connection')
   // server.addClient(socket)
   const docId = socket.handshake.query.docId
-  const file = files.getFileByDocId(docId)
-  if (file !== null) {
+  const file = await files.getFileByDocId(docId)
+  console.log(file, docId)
+
+  if (file !== null && file !== undefined) {
     file.otServer.addClient(socket)
   } else {
     console.log('没有这个文件')

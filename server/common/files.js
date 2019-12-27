@@ -33,7 +33,7 @@ const getFile = async (fileName) => {
 }
 
 const getFileByDocId = async (docId) => {
-  return Files.get(docId)
+  return await Files.get(docId)
 }
 
 const addFile = async (fileName) => {
